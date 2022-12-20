@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/bootstrap-4.6.2-dist/css/bootstrap.min.css">
+    <script src="/bootstrap-4.6.2-dist/js/bootstrap.min.js"></script>
+    <script src="/j query.min.js/jquery.min.js"></script>
+    <title>Document</title>
+    <style>
+        small{
+            font-size: 10px;
+        }
+        .heading{
+            font-family:'Times New Roman', Times, serif ;
+        }
+        #time{
+            background-color:  rgb(220,248,198);
+            width: 100%;
+            height: 250px;
+            border-radius: 10px;
+            position: relative;
+        }
+        .result{
+            display: flex;
+            font-size: 50px;
+            justify-content:center;
+            position: absolute;
+            top: 30%;
+            left: 30%;
+              
+        }
+        #currenttime{
+            float: right;
+            padding: 10px;
+            color: green;
+        }
+        #currentdate{
+            float: left;
+            padding: 10px;
+            color: brown;
+        }
+        .startButton-active,.stopButton-active{
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        h3{
+            color:brown;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+               <center><h3 class="display-5 heading">STOP CLOCK IN JAVASCRIPT<small class="text-muted"> Made by Rk Anbu</small></h3></center><br>
+               <center><div id="time">
+                <div id="currenttime"></div>
+                <div id="currentdate"></div>
+                <div class="result" id="Result">
+                <div class="hrs">00</div>
+                <div class="colon">:</div>
+                <div class="min">00</div>
+                <div class="colon">:</div>
+                <div class="sec">00</div>   
+                <div class="colon">:</div>
+                <div class="ms">00</div>
+              </div></div><br>
+               <button class="btn btn-info btn-small start">Start</button> 
+               <button class="btn btn-danger btn-small stop">Stop</button> 
+               <button class="btn btn-success btn-small reset">Reset</button></center>
+            </div>
+            
+        </div>
+    </div>
+    <script>
+        var time =new Date();
+        var all = time.toLocaleTimeString()
+        var date = time.toDateString();
+        document.getElementById("currenttime").innerText=all;
+        document.getElementById("currentdate").innerText=date;
+        const btnStart=document.querySelector('.start');
+        const btnStop=document.querySelector('.stop');
+        const btnReset=document.querySelector('.reset');
+        const color = document.getElementById("Result");
+        
+        let hrs=0;
+        let min=0;
+        let sec=0;
+        let ms=0;
+        let start;
+        
+        btnStart.addEventListener('click',()=>{
+        
+          btnStart.classList.add('startButton-active');
+          btnStop.classList.remove('stopButton-active');
+          color.style.color="blue";
+        
+          start=setInterval(()=>{
+            ms++;
+            if(ms==100){
+              sec++;
+              ms=0;
+            }
+            if(sec==60){
+              min++;
+              sec=0;
+            }
+            if(min==60){
+              hrs++;
+              min=0;
+            }
+            result();
+          },10);
+        });
+        
+        btnStop.addEventListener('click',()=>{
+          clearInterval(start);
+          color.style.color="red";
+          btnStart.classList.remove('startButton-active');
+          btnStop.classList.add('stopButton-active');
+        
+        });
+        
+        btnReset.addEventListener('click',()=>{
+          hrs=min=sec=ms=0;
+          clearInterval(start);
+          result();
+          color.style.color="black";
+          btnStart.classList.remove('startButton-active');
+          btnStop.classList.remove('stopButton-active');
+          
+        });
+        
+        
+        function result(){
+          hours=hrs<10?'0'+hrs:hrs;
+          minute=min<10?'0'+min:min;
+          seconds=sec<10?'0'+sec:sec;
+          msec=ms<10?'0'+ms:ms;
+          document.querySelector('.hrs').innerText=hours;
+          document.querySelector('.min').innerText=minute;
+          document.querySelector('.sec').innerText=seconds;
+          document.querySelector('.ms').innerText=msec;
+        }
+        </script>
+</body>
+</html>
